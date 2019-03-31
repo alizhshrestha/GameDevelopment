@@ -8,20 +8,24 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Scenes.Hud;
 import com.mygdx.game.ZickZackJump;
 
 public class PlayScreen implements Screen {
     //Reference to our game, used to set Screens
     private ZickZackJump game;
 
+    private Hud hud;
+
     //basic playscreen variables
     private OrthographicCamera gamecam;
     private Viewport gamePort;
-    private Sprite sprite;
+    //private Sprite sprite;
 
     public PlayScreen(ZickZackJump game){
-        sprite = new Sprite(new Texture("badlogic.jpg"));
+        //sprite = new Sprite(new Texture("badlogic.jpg"));
         this.game = game;
+
 //
 //        //create cam used to follow jumper through cam world
         gamecam = new OrthographicCamera();
@@ -30,12 +34,20 @@ public class PlayScreen implements Screen {
         gamePort = new FitViewport(ZickZackJump.V_WIDTH / ZickZackJump.PPM,
                 ZickZackJump.V_HEIGHT/ ZickZackJump.PPM,
                 gamecam);
+
+
+        //create our game HUD for scores/timers/level info
+        hud = new Hud(game.batch);
 //
 //        //initially set our gamecam to be centered correctly at the start of of map
         gamecam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
     }
 
     public void update(float dt){
+
+        hud.update(dt);
+
+        //update our gamecam with correct coordinates after changes
         gamecam.update();
     }
 
@@ -51,9 +63,13 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-        game.batch.begin();
-        sprite.draw(game.batch);
-        game.batch.end();
+//        game.batch.setProjectionMatrix(gamecam.combined);
+//        game.batch.begin();
+//        //sprite.draw(game.batch);
+//        game.batch.end();
+
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
 
     }
 
@@ -67,7 +83,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        gamePort.update(width, height);
     }
 
     @Override
@@ -87,6 +103,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        //dispose of all our opened resources
+        hud.dispose();
     }
 }
