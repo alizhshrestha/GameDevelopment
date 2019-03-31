@@ -10,8 +10,8 @@ import com.mygdx.game.Screens.PlayScreen;
 
 public class ZickZackJump extends Game {
 	//Virtual screen size and Box2D scale(pixels per meter)
-	public static final int V_WIDTH = 400;
-	public static final int V_HEIGHT = 200;
+	public static final int V_WIDTH = 150;
+	public static final int V_HEIGHT = 300;
 	public static final float PPM = 100;
 
 	public SpriteBatch batch;
@@ -30,5 +30,7 @@ public class ZickZackJump extends Game {
 	
 	@Override
 	public void dispose () {
+		super.dispose();
+		batch.dispose();
 	}
 }
