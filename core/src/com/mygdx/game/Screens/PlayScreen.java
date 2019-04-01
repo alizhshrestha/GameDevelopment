@@ -10,9 +10,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Scenes.Hud;
+import com.mygdx.game.Sprites.Jumper;
+import com.mygdx.game.Tools.B2WorldCreator;
 import com.mygdx.game.ZickZackJump;
 
 public class PlayScreen implements Screen {
@@ -24,6 +29,13 @@ public class PlayScreen implements Screen {
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
+
+    //Box2d variables
+    private World world;
+    private Box2DDebugRenderer b2dr;
+    private B2WorldCreator creator;
+
+    private Jumper player;
 
     private Hud hud;
 
@@ -59,6 +71,17 @@ public class PlayScreen implements Screen {
 //
 //        //initially set our gamecam to be centered correctly at the start of of map
         gamecam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
+
+        //create our Box2D world, setting no gravity in X, -10 gravity in Y, and allow bodies to sleep
+        world = new World(new Vector2(0, -10), true);
+
+        //allows for debug lines of our box2d world.
+        b2dr = new Box2DDebugRenderer();
+
+        creator = new B2WorldCreator(this);
+
+        player = new Jumper(this);
+
     }
 
     public TextureAtlas getAtlas(){
@@ -66,6 +89,13 @@ public class PlayScreen implements Screen {
     }
 
     public void update(float dt){
+
+        //takes 1 step in the physics simulation(60 times per second)
+        world.step(1 / 60f, 6, 2);
+
+
+
+
 
         hud.update(dt);
 
@@ -91,11 +121,14 @@ public class PlayScreen implements Screen {
         //render our game map
         renderer.render();
 
+        //renderer our Box2DDebugLines
+        b2dr.render(world, gamecam.combined);
 
-//        game.batch.setProjectionMatrix(gamecam.combined);
-//        game.batch.begin();
-//        //sprite.draw(game.batch);
-//        game.batch.end();
+
+        game.batch.setProjectionMatrix(gamecam.combined);
+        game.batch.begin();
+        //player.draw(game.batch);
+        game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
@@ -104,6 +137,10 @@ public class PlayScreen implements Screen {
 
     public TiledMap getMap(){
         return map;
+    }
+
+    public World getWorld(){
+        return world;
     }
 
 
@@ -139,6 +176,8 @@ public class PlayScreen implements Screen {
         //dispose of all our opened resources
         map.dispose();
         renderer.dispose();
+        world.dispose();
+        b2dr.dispose();
         hud.dispose();
     }
 
