@@ -1,6 +1,7 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -94,6 +95,9 @@ public class PlayScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 
 
+        int count = 0;
+        if (Gdx.input.isTouched(Input.Buttons.LEFT))
+            gamecam.position.y += 5f*dt;
 
 
 
