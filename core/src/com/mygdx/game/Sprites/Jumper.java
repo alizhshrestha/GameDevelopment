@@ -2,6 +2,7 @@ package com.mygdx.game.Sprites;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -16,21 +17,28 @@ public class Jumper extends Sprite {
 
     private PlayScreen screen;
 
+    private TextureRegion marioStand;
+
     public Jumper (PlayScreen screen){
         //Initialize default values
         this.screen = screen;
         this.world = screen.getWorld();
+
+        //create texture region for mario standing
+        marioStand = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 0,0,16,16);
 
         //define mario in Box2d
         defineMario();
 
         //set initial values for marios location, width and height. And initial frame as marioStand
         setBounds(0,0, 16 / ZickZackJump.PPM, 16/ZickZackJump.PPM);
+        setRegion(marioStand);
+        setPosition(32 / ZickZackJump.PPM,15/ ZickZackJump.PPM);
     }
 
     public void defineMario(){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32 / ZickZackJump.PPM, 32 / ZickZackJump.PPM);
+        bdef.position.set(getX(), getY());
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
