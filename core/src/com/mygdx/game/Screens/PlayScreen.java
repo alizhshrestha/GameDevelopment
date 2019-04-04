@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Scenes.Hud;
+import com.mygdx.game.Sprites.Enemies.Goomba;
 import com.mygdx.game.Sprites.Jumper;
 import com.mygdx.game.Tools.B2WorldCreator;
 import com.mygdx.game.ZickZackJump;
@@ -83,6 +84,8 @@ public class PlayScreen implements Screen {
 
         player = new Jumper(this);
 
+        Goomba goomba = new Goomba(this, 50, 32);
+
     }
 
     public TextureAtlas getAtlas(){
@@ -108,6 +111,8 @@ public class PlayScreen implements Screen {
         player.update(dt);
 
         hud.update(dt);
+
+        gamecam.position.y = player.b2body.getPosition().y;
 
         //update our gamecam with correct coordinates after changes
         gamecam.update();

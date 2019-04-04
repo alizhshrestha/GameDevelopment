@@ -57,13 +57,30 @@ public class B2WorldCreator {
             body.createFixture(fdef);
         }
 
+
+
+        //create brick bodies/fixtures
         for (MapObject object: map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
             new Brick(screen, object);
         }
 
+
+
+        //create coin bodies/fixtures
         for (MapObject object: map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
             new Coin(screen, object);
         }
 
+
+        //create all goombas
+        goombas = new Array<Goomba>();
+        for (MapObject object: map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject)object).getRectangle();
+            goombas.add(new Goomba(screen, rect.getX()/ ZickZackJump.PPM, rect.getY()/ ZickZackJump.PPM));
+        }
+    }
+
+    public Array<Goomba> getGoombas(){
+        return goombas;
     }
 }
