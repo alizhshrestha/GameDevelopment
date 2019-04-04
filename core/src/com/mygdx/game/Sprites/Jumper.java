@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -153,8 +154,22 @@ public class Jumper extends Sprite {
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(6/ ZickZackJump.PPM);
+        fdef.filter.categoryBits = ZickZackJump.JUMPER_BIT;
+        fdef.filter.maskBits = ZickZackJump.GROUND_BIT |
+                ZickZackJump.COIN_BIT |
+                ZickZackJump.BRICK_BIT |
+                ZickZackJump. ENEMY_BIT |
+                ZickZackJump.OBJECT_BIT |
+                ZickZackJump.ENEMY_HEAD_BIT;
         fdef.shape = shape;
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData(this);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / ZickZackJump.PPM, 6 / ZickZackJump.PPM), new Vector2(2 / ZickZackJump.PPM, 6 / ZickZackJump.PPM));
+        fdef.filter.categoryBits = ZickZackJump.JUMPER_HEAD_BIT;
+        fdef.shape = head;
+        fdef.isSensor = true;
+        b2body.createFixture(fdef).setUserData(this);
     }
 
 }

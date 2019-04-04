@@ -21,6 +21,7 @@ import com.mygdx.game.Sprites.Enemies.Enemy;
 import com.mygdx.game.Sprites.Enemies.Goomba;
 import com.mygdx.game.Sprites.Jumper;
 import com.mygdx.game.Tools.B2WorldCreator;
+import com.mygdx.game.Tools.WorldContactListener;
 import com.mygdx.game.ZickZackJump;
 
 public class PlayScreen implements Screen {
@@ -83,7 +84,11 @@ public class PlayScreen implements Screen {
 
         creator = new B2WorldCreator(this);
 
+
+        //create jumper in our game world
         player = new Jumper(this);
+
+        world.setContactListener(new WorldContactListener());
 
         Goomba goomba = new Goomba(this, 50, 32);
 

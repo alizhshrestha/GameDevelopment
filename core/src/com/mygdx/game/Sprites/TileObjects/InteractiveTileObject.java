@@ -3,14 +3,17 @@ package com.mygdx.game.Sprites.TileObjects;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Screens.PlayScreen;
+import com.mygdx.game.Sprites.Jumper;
 import com.mygdx.game.ZickZackJump;
 
 public abstract class InteractiveTileObject {
@@ -43,6 +46,19 @@ public abstract class InteractiveTileObject {
         fdef.shape = shape;
 
         fixture = body.createFixture(fdef);
+    }
+
+    public abstract void onHeadHit(Jumper jumper);
+    public void setCategoryFilter(short filterBit){
+        Filter filter = new Filter();
+        filter.categoryBits = filterBit;
+        fixture.setFilterData(filter);
+    }
+
+    public TiledMapTileLayer.Cell getCell(){
+        TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get(1);
+        return layer.getCell((int)(body.getPosition().x * ZickZackJump.PPM / 16),
+                (int)(body.getPosition().y * ZickZackJump.PPM / 16));
     }
 
 }
