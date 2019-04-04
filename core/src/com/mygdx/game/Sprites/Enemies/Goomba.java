@@ -19,6 +19,9 @@ public class Goomba extends Enemy{
     private Animation walkAnimation;
     private Array<TextureRegion> frames;
     private float initPos, finalPos;
+    private boolean setToDestroy;
+    private boolean destroyed;
+    float angle;
 
     public Goomba(PlayScreen screen, float x, float y) {
         super(screen, x, y);
@@ -32,17 +35,27 @@ public class Goomba extends Enemy{
         finalPos = initPos + 20/ ZickZackJump.PPM;
         System.out.println(" FInal Goomba" + finalPos);
         setBounds(getX(), getY(), 16/ ZickZackJump.PPM, 16/ZickZackJump.PPM);
+        setToDestroy = false;
+        destroyed = false;
+        angle = 0;
     }
 
     @Override
     public void update(float dt) {
         stateTime += dt;
-        if (b2body.getPosition().x <= initPos || b2body.getPosition().x >=finalPos)
-            reverseVelocity(true, false);
-        b2body.setLinearVelocity(velocity);
-        setPosition(b2body.getPosition().x - getWidth() /2, b2body.getPosition().y - getHeight() / 2);
+        if (setToDestroy && !destroyed){
+            world.destroyBody(b2body);
+            destroyed = true;
+            setRegion(new TextureRegion(screen.getAtlas().findRegion("goomba"), 32, 0, 16,16));
+            stateTime = 0;
+        }else if (!destroyed) {
+            if (b2body.getPosition().x <= initPos || b2body.getPosition().x >= finalPos)
+                reverseVelocity(true, false);
+            b2body.setLinearVelocity(velocity);
+            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
 
-        setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
+            setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
+        }
     }
 
 
@@ -85,7 +98,7 @@ public class Goomba extends Enemy{
 
     @Override
     public void hitOnHead(Jumper jumper) {
-
+        setToDestroy = true;
     }
 
     @Override
@@ -95,6 +108,7 @@ public class Goomba extends Enemy{
 
     @Override
     public void draw(Batch batch) {
-        super.draw(batch);
+        if (!destroyed || stateTime < 1)
+            super.draw(batch);
     }
 }

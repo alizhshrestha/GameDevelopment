@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.mygdx.game.Sprites.Enemies.Enemy;
 import com.mygdx.game.Sprites.Jumper;
 import com.mygdx.game.Sprites.TileObjects.InteractiveTileObject;
 import com.mygdx.game.ZickZackJump;
@@ -26,6 +27,24 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((InteractiveTileObject)fixA.getUserData()).onHeadHit((Jumper)fixB.getUserData());
                 break;
+            case ZickZackJump.ENEMY_HEAD_BIT | ZickZackJump.JUMPER_BIT:
+                if (fixA.getFilterData().categoryBits == ZickZackJump.ENEMY_HEAD_BIT)
+                    ((Enemy)fixA.getUserData()).hitOnHead((Jumper)fixB.getUserData());
+                else
+                    ((Enemy)fixB.getUserData()).hitOnHead((Jumper) fixA.getUserData());
+                break;
+            case ZickZackJump.ENEMY_BIT | ZickZackJump.OBJECT_BIT:
+                if(fixA.getFilterData().categoryBits == ZickZackJump.ENEMY_BIT)
+                    ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
+                else
+                    ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+//            case ZickZackJump.JUMPER_BIT | ZickZackJump.ENEMY_BIT:
+//                if(fixA.getFilterData().categoryBits == ZickZackJump.JUMPER_BIT)
+//                    ((Jumper) fixA.getUserData()).hit((Enemy)fixB.getUserData());
+//                else
+//                    ((Jumper) fixB.getUserData()).hit((Enemy)fixA.getUserData());
+//                break;
         }
 
     }
