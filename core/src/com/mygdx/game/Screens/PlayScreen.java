@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Scenes.Hud;
+import com.mygdx.game.Sprites.Enemies.Enemy;
 import com.mygdx.game.Sprites.Enemies.Goomba;
 import com.mygdx.game.Sprites.Jumper;
 import com.mygdx.game.Tools.B2WorldCreator;
@@ -108,6 +109,13 @@ public class PlayScreen implements Screen {
         //takes 1 step in the physics simulation(60 times per second)
         world.step(1 / 60f, 6, 2);
 
+        for (Enemy enemy: creator.getGoombas()){
+            enemy.update(dt);
+            if (enemy.getY() < player.getY() + 20 / ZickZackJump.PPM){
+                enemy.b2body.setActive(true);
+            }
+        }
+
         player.update(dt);
 
         hud.update(dt);
@@ -143,6 +151,8 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         player.draw(game.batch);
+        for (Enemy enemy: creator.getGoombas())
+            enemy.draw(game.batch);
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
