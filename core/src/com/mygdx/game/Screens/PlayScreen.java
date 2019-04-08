@@ -175,7 +175,7 @@ public class PlayScreen implements Screen {
     }
 
     public boolean gameOver(){
-        if (player.currentState == Jumper.State.DEAD && player.getStateTimer() > 3){
+        if (player.currentState == Jumper.State.DEAD && player.getStateTimer() > 2){
             return true;
         }
         return false;
