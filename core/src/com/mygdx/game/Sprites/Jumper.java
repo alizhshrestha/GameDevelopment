@@ -9,14 +9,17 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Screens.PlayScreen;
+import com.mygdx.game.Sprites.Enemies.Enemy;
 import com.mygdx.game.ZickZackJump;
 
 public class Jumper extends Sprite {
-    public enum State{FALLING, JUMPING, STANDING, RUNNING};
+    public enum State{FALLING, JUMPING, STANDING, RUNNING, DEAD};
     public State currentState;
     public State previousState;
 
@@ -31,9 +34,14 @@ public class Jumper extends Sprite {
     private Animation marioRun;
     private TextureRegion marioJump;
 
+    private TextureRegion marioDead;
+
 
     private float stateTimer;
     private boolean runningRight;
+
+
+    private boolean marioIsDead;
 
 
     public Jumper (PlayScreen screen){
@@ -59,6 +67,10 @@ public class Jumper extends Sprite {
         //create texture region for mario standing
         marioStand = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 0,0,16,16);
 
+
+        //create dead mario texture region
+        marioDead = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 96, 0, 16, 16);
+
         //define mario in Box2d
         defineMario();
 
@@ -69,8 +81,26 @@ public class Jumper extends Sprite {
     }
 
     public void update(float dt){
+        if (screen.getHud().isTimeUp() && !isDead()){
+            die();
+        }
+
         setPosition(b2body.getPosition().x - getWidth()/2, b2body.getPosition().y - getHeight()/2);
         setRegion(getFrame(dt));
+    }
+
+    public void die(){
+        if (!isDead()){
+            marioIsDead = true;
+            Filter filter = new Filter();
+            filter.maskBits = ZickZackJump.NOTHING_BIT;
+
+            for (Fixture fixture: b2body.getFixtureList()){
+                fixture.setFilterData(filter);
+            }
+
+            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+        }
     }
 
     public TextureRegion getFrame(float dt){
@@ -80,6 +110,9 @@ public class Jumper extends Sprite {
 
         //depending on the state, get corresponding animation keyframe
         switch(currentState){
+            case DEAD:
+                region = marioDead;
+                break;
             case JUMPING:
                 region = marioJump;
                 break;
@@ -118,6 +151,8 @@ public class Jumper extends Sprite {
     public State getState(){
         //Test to Box2D for velocity on the X and Y-Axis
         //if mario is going positive in Y-Axis he is jumping... or if he just jumped and is falling remain in jump state
+        if (marioIsDead)
+            return State.DEAD;
         if ((b2body.getLinearVelocity().y > 0 && currentState == State.JUMPING) || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
             return State.JUMPING;
             //if negative in Y-Axis mario is falling
@@ -131,7 +166,9 @@ public class Jumper extends Sprite {
             return State.STANDING;
     }
 
-
+    public boolean isDead(){
+        return marioIsDead;
+    }
 
     public float getStateTimer(){
         return stateTimer;
@@ -143,6 +180,10 @@ public class Jumper extends Sprite {
             currentState = State.JUMPING;
         }
 
+    }
+
+    public void hit(Enemy enemy){
+        die();
     }
 
     public void defineMario(){

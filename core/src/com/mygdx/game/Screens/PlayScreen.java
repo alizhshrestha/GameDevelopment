@@ -3,6 +3,7 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -40,6 +41,8 @@ public class PlayScreen implements Screen {
     private B2WorldCreator creator;
 
     private Jumper player;
+
+
 
     private Hud hud;
 
@@ -125,7 +128,8 @@ public class PlayScreen implements Screen {
 
         hud.update(dt);
 
-        gamecam.position.y = player.b2body.getPosition().y;
+        if (player.currentState != Jumper.State.DEAD)
+            gamecam.position.y = player.b2body.getPosition().y;
 
         //update our gamecam with correct coordinates after changes
         gamecam.update();
@@ -163,6 +167,18 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
+        if (gameOver()){
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
+
+    }
+
+    public boolean gameOver(){
+        if (player.currentState == Jumper.State.DEAD && player.getStateTimer() > 3){
+            return true;
+        }
+        return false;
     }
 
     public TiledMap getMap(){

@@ -19,14 +19,19 @@ public class Hud implements Disposable{
     private Viewport viewport;
 
     //Jumper score/time Tracking Variables
-    private static Integer score, level;
+    private static Integer score, level, worldTimer;
+    private float timeCount;
+
+    private boolean timeUp; //true when the world timer reaches 0
 
     private static Label scoreLabel;
-    private Label scoreName, levelName, levelLabel;
+    private Label countdownLabel, scoreName, levelName, levelLabel, timeLabel;
 
     public Hud(SpriteBatch sb){
         score = 0;
         level = 1;
+        timeCount = 0;
+        worldTimer = 20;
 
         viewport = new FitViewport(ZickZackJump.V_WIDTH, ZickZackJump.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -37,7 +42,9 @@ public class Hud implements Disposable{
         table.setFillParent(true); //table is size of the stage
 
 
+        countdownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreName = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         levelName = new Label("LEVEL", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         levelLabel = new Label(String.format("%03d", level), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -45,16 +52,27 @@ public class Hud implements Disposable{
 
         table.add(scoreName).expandX().padTop(10);
         table.add(levelName).expandX().padTop(10);
+        table.add(timeLabel).expandX().padTop(10);
         table.row();
         table.add(scoreLabel).expandX();
         table.add(levelLabel).expandX();
+        table.add(countdownLabel).expandX();
 
         stage.addActor(table);
     }
 
 
     public void update(float dt){
-
+        timeCount += dt;
+        if (timeCount >= 1){
+            if (worldTimer > 0){
+                worldTimer--;
+            }else{
+                timeUp = true;
+            }
+            countdownLabel.setText(String.format("%03d", worldTimer));
+            timeCount = 0;
+        }
     }
 
     public static void addScore(int value){
@@ -65,6 +83,10 @@ public class Hud implements Disposable{
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public boolean isTimeUp(){
+        return timeUp;
     }
 
 
