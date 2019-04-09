@@ -39,12 +39,12 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
                 break;
-            case ZickZackJump.JUMPER_BIT | ZickZackJump.ENEMY_BIT:
-                if(fixA.getFilterData().categoryBits == ZickZackJump.JUMPER_BIT)
-                    ((Jumper) fixA.getUserData()).hit((Enemy)fixB.getUserData());
-                else
-                    ((Jumper) fixB.getUserData()).hit((Enemy)fixA.getUserData());
-                break;
+//            case ZickZackJump.JUMPER_BIT | ZickZackJump.ENEMY_BIT:
+//                if(fixA.getFilterData().categoryBits == ZickZackJump.JUMPER_BIT)
+//                    ((Jumper) fixA.getUserData()).hit((Enemy)fixB.getUserData());
+//                else
+//                    ((Jumper) fixB.getUserData()).hit((Enemy)fixA.getUserData());
+//                break;
         }
 
     }

@@ -13,7 +13,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -104,7 +108,7 @@ public class PlayScreen implements Screen {
     public void handleInput(float dt){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
             player.jump();
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <=2)
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <=2 )//&& (player.getX() + player.getWidth()/2) / ZickZackJump.PPM < ZickZackJump.V_WIDTH/ ZickZackJump.PPM)
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2)
             player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
@@ -119,7 +123,7 @@ public class PlayScreen implements Screen {
 
         for (Enemy enemy: creator.getGoombas()){
             enemy.update(dt);
-            if (enemy.getY() < player.getY() + 20 / ZickZackJump.PPM){
+            if (enemy.getY() < player.getY() + 200 / ZickZackJump.PPM){
                 enemy.b2body.setActive(true);
             }
         }
@@ -193,7 +197,52 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
+        defineBoundryLeft();
+        defineBoundryRight();
+    }
 
+
+    public void defineBoundryRight(){
+        Body body;
+        BodyDef bdef = new BodyDef();
+        bdef.type = BodyDef.BodyType.StaticBody;
+        bdef.position.set(ZickZackJump.V_WIDTH/ ZickZackJump.PPM,15/ ZickZackJump.PPM);
+        body = world.createBody(bdef);
+
+
+
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        Vector2[] vertice = new Vector2[4];
+        vertice[0] = new Vector2(-2, 1600).scl(1 / ZickZackJump.PPM);
+        vertice[1] = new Vector2(0, 1600).scl(1 / ZickZackJump.PPM);
+        vertice[2] = new Vector2(-2, 0).scl(1 / ZickZackJump.PPM);
+        vertice[3] = new Vector2(0, 0).scl(1 / ZickZackJump.PPM);
+        shape.set(vertice);
+        fdef.shape = shape;
+        body.createFixture(fdef);
+    }
+
+    public void defineBoundryLeft(){
+
+        Body body;
+        BodyDef bdef = new BodyDef();
+        bdef.type = BodyDef.BodyType.StaticBody;
+        bdef.position.set(0,15/ ZickZackJump.PPM);
+        body = world.createBody(bdef);
+
+
+
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        Vector2[] vertice = new Vector2[4];
+        vertice[0] = new Vector2(-2, 1600).scl(1 / ZickZackJump.PPM);
+        vertice[1] = new Vector2(0, 1600).scl(1 / ZickZackJump.PPM);
+        vertice[2] = new Vector2(-2, 0).scl(1 / ZickZackJump.PPM);
+        vertice[3] = new Vector2(0, 0).scl(1 / ZickZackJump.PPM);
+        shape.set(vertice);
+        fdef.shape = shape;
+        body.createFixture(fdef);
     }
 
 

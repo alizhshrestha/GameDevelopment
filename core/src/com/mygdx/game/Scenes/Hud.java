@@ -31,7 +31,7 @@ public class Hud implements Disposable{
         score = 0;
         level = 1;
         timeCount = 0;
-        worldTimer = 20;
+        worldTimer = 200;
 
         viewport = new FitViewport(ZickZackJump.V_WIDTH, ZickZackJump.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);

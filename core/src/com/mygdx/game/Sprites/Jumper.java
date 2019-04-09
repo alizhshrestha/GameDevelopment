@@ -85,7 +85,12 @@ public class Jumper extends Sprite {
             die();
         }
 
+        if((b2body.getPosition().x + getWidth()/2) > ZickZackJump.V_WIDTH / ZickZackJump.PPM){
+
+        }
+
         setPosition(b2body.getPosition().x - getWidth()/2, b2body.getPosition().y - getHeight()/2);
+
         setRegion(getFrame(dt));
     }
 
