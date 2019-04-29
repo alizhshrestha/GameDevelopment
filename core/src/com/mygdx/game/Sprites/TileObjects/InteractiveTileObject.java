@@ -46,6 +46,7 @@ public abstract class InteractiveTileObject {
         fdef.shape = shape;
 
         fixture = body.createFixture(fdef);
+
     }
 
     public abstract void onHeadHit(Jumper jumper);

@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Scenes.Hud;
 import com.mygdx.game.ZickZackJump;
 
 public class GameOverScreen implements Screen {
@@ -34,10 +35,16 @@ public class GameOverScreen implements Screen {
 
         Label gameOverLabel = new Label("GAME OVER", font);
         Label playAgainLabel = new Label("Click to play Again", font);
+        Label HighScoreLabel = new Label("High Score is: " + ZickZackJump.getHighScore(), font);
+        Label ScoreLabel = new Label("Your Score is: " + Hud.getScore(), font);
 
         table.add(gameOverLabel).expandX();
         table.row();
         table.add(playAgainLabel).expandX().padTop(10f);
+        table.row();
+        table.add(HighScoreLabel).expandX().padTop(10f);
+        table.row();
+        table.add(ScoreLabel).expandX().padTop(10f);
 
         stage.addActor(table);
     }

@@ -218,4 +218,6 @@ public class Jumper extends Sprite {
         b2body.createFixture(fdef).setUserData(this);
     }
 
+
+
 }

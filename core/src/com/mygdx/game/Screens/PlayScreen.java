@@ -101,6 +101,10 @@ public class PlayScreen implements Screen {
 
     }
 
+    public ZickZackJump getGame(){
+        return game;
+    }
+
     public TextureAtlas getAtlas(){
         return atlas;
     }
@@ -220,7 +224,8 @@ public class PlayScreen implements Screen {
         vertice[3] = new Vector2(0, 0).scl(1 / ZickZackJump.PPM);
         shape.set(vertice);
         fdef.shape = shape;
-        body.createFixture(fdef);
+        fdef.filter.categoryBits = ZickZackJump.OBJECT_BIT;
+        body.createFixture(fdef).setUserData(this);
     }
 
     public void defineBoundryLeft(){
@@ -242,6 +247,7 @@ public class PlayScreen implements Screen {
         vertice[3] = new Vector2(0, 0).scl(1 / ZickZackJump.PPM);
         shape.set(vertice);
         fdef.shape = shape;
+        fdef.filter.categoryBits = ZickZackJump.OBJECT_BIT;
         body.createFixture(fdef);
     }
 

@@ -3,9 +3,11 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.Screens.LoadingScreen;
 import com.mygdx.game.Screens.PlayScreen;
 
 public class ZickZackJump extends Game {
@@ -30,11 +32,28 @@ public class ZickZackJump extends Game {
 
 	public SpriteBatch batch;
 
+	public static Preferences prefs;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 
-		setScreen(new PlayScreen(this));
+		prefs = Gdx.app.getPreferences("ZickZackJump");
+
+		if (!prefs.contains("highScore")){
+			prefs.putInteger("highScore", 0);
+		}
+
+		setScreen(new LoadingScreen(this));
+	}
+
+	public static void setHighScore(int val){
+		prefs.putInteger("highScore", val);
+		prefs.flush();
+	}
+
+	public static int getHighScore(){
+		return prefs.getInteger("highScore");
 	}
 
 	@Override

@@ -14,6 +14,8 @@ import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.Sprites.Enemies.Goomba;
 import com.mygdx.game.Sprites.TileObjects.Brick;
 import com.mygdx.game.Sprites.TileObjects.Coin;
+import com.mygdx.game.Sprites.TileObjects.Ground;
+import com.mygdx.game.Sprites.TileObjects.Pipe;
 import com.mygdx.game.ZickZackJump;
 
 public class B2WorldCreator {
@@ -31,30 +33,36 @@ public class B2WorldCreator {
 
         //create ground bodies/fixtures
         for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject)object).getRectangle();
+//            Rectangle rect = ((RectangleMapObject)object).getRectangle();
+//
+//            bdef.type = BodyDef.BodyType.StaticBody;
+//            bdef.position.set((rect.getX() + rect.getWidth()/2)/ ZickZackJump.PPM, (rect.getY() + rect.getHeight()/2)/ZickZackJump.PPM);
+//
+//            body = world.createBody(bdef);
+//
+//            shape.setAsBox(rect.getWidth() / 2 / ZickZackJump.PPM, rect.getHeight() / 2/ ZickZackJump.PPM);
+//            fdef.shape = shape;
+//            body.createFixture(fdef);
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth()/2)/ ZickZackJump.PPM, (rect.getY() + rect.getHeight()/2)/ZickZackJump.PPM);
+            new Ground(screen, object);
 
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth() / 2 / ZickZackJump.PPM, rect.getHeight() / 2/ ZickZackJump.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
         }
+
+
 
         //create pipe bodies/fixtures
         for (MapObject object: map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject)object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth()/2) / ZickZackJump.PPM, (rect.getY() + rect.getHeight()/2)/ ZickZackJump.PPM);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2/ZickZackJump.PPM, rect.getHeight()/2/ZickZackJump.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
+//            Rectangle rect = ((RectangleMapObject)object).getRectangle();
+//
+//            bdef.type = BodyDef.BodyType.StaticBody;
+//            bdef.position.set((rect.getX() + rect.getWidth()/2) / ZickZackJump.PPM, (rect.getY() + rect.getHeight()/2)/ ZickZackJump.PPM);
+//
+//            body = world.createBody(bdef);
+//
+//            shape.setAsBox(rect.getWidth()/2/ZickZackJump.PPM, rect.getHeight()/2/ZickZackJump.PPM);
+//            fdef.shape = shape;
+//            body.createFixture(fdef);
+            new Pipe(screen, object);
         }
 
 

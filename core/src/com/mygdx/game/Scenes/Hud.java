@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -19,19 +20,20 @@ public class Hud implements Disposable{
     private Viewport viewport;
 
     //Jumper score/time Tracking Variables
-    private static Integer score, level, worldTimer;
+    private static Integer score, level, worldTimer, highScore;
     private float timeCount;
 
     private boolean timeUp; //true when the world timer reaches 0
 
-    private static Label scoreLabel;
-    private Label countdownLabel, scoreName, levelName, levelLabel, timeLabel;
+    private static Label scoreLabel, highScoreLabel;
+    private Label countdownLabel, scoreName, levelName, levelLabel, timeLabel, highScoreName;
 
     public Hud(SpriteBatch sb){
         score = 0;
         level = 1;
         timeCount = 0;
-        worldTimer = 200;
+        highScore = ZickZackJump.getHighScore();
+        worldTimer = 100;
 
         viewport = new FitViewport(ZickZackJump.V_WIDTH, ZickZackJump.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -48,8 +50,13 @@ public class Hud implements Disposable{
         levelName = new Label("LEVEL", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         levelLabel = new Label(String.format("%03d", level), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+//        highScoreName = new Label("HIGH SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+//        highScoreLabel = new Label(String.format("%06d", highScore), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
 
+//        table.add(highScoreName).align(Align.center);
+//        table.add(highScoreLabel).expandX();
+//        table.row();
         table.add(scoreName).expandX().padTop(10);
         table.add(levelName).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
@@ -59,6 +66,10 @@ public class Hud implements Disposable{
         table.add(countdownLabel).expandX();
 
         stage.addActor(table);
+    }
+
+    public static Integer getScore(){
+        return score;
     }
 
 
@@ -78,6 +89,10 @@ public class Hud implements Disposable{
     public static void addScore(int value){
         score += value;
         scoreLabel.setText(String.format("%06d", score));
+        if (highScore < score){
+            ZickZackJump.setHighScore(score);
+        }
+
     }
 
     @Override

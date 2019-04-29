@@ -1,16 +1,21 @@
 package com.mygdx.game.Tools;
 
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.mygdx.game.Scenes.Hud;
 import com.mygdx.game.Sprites.Enemies.Enemy;
 import com.mygdx.game.Sprites.Jumper;
+import com.mygdx.game.Sprites.TileObjects.Ground;
 import com.mygdx.game.Sprites.TileObjects.InteractiveTileObject;
 import com.mygdx.game.ZickZackJump;
 
 public class WorldContactListener implements ContactListener {
+
+
 
     @Override
     public void beginContact(Contact contact) {
@@ -45,6 +50,12 @@ public class WorldContactListener implements ContactListener {
 //                else
 //                    ((Jumper) fixB.getUserData()).hit((Enemy)fixA.getUserData());
 //                break;
+            case ZickZackJump.JUMPER_BIT | ZickZackJump.GROUND_BIT:
+                if (fixA.getFilterData().categoryBits == ZickZackJump.GROUND_BIT)
+                    ((Ground)fixA.getUserData()).onCloudGround((Jumper)fixB.getUserData());
+                else
+                    ((Ground)fixB.getUserData()).onCloudGround((Jumper)fixA.getUserData());
+
         }
 
     }
