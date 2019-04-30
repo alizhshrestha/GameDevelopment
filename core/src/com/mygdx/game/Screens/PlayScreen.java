@@ -77,7 +77,54 @@ public class PlayScreen implements Screen {
 
         //Load our map and setup our map renderer
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("ZickZack.tmx");
+        map = mapLoader.load("level1.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / ZickZackJump.PPM);
+//
+//        //initially set our gamecam to be centered correctly at the start of of map
+        gamecam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
+
+        //create our Box2D world, setting no gravity in X, -10 gravity in Y, and allow bodies to sleep
+        world = new World(new Vector2(0, -10), true);
+
+        //allows for debug lines of our box2d world.
+        b2dr = new Box2DDebugRenderer();
+
+        creator = new B2WorldCreator(this);
+
+
+        //create jumper in our game world
+        player = new Jumper(this);
+
+        world.setContactListener(new WorldContactListener());
+
+        Goomba goomba = new Goomba(this, 50, 32);
+
+    }
+
+    public PlayScreen(ZickZackJump game, String level){
+        atlas = new TextureAtlas("Mario_and_Enemies.pack");
+
+        //sprite = new Sprite(new Texture("badlogic.jpg"));
+        this.game = game;
+
+//
+//        //create cam used to follow jumper through cam world
+        gamecam = new OrthographicCamera();
+//
+//        //create a FitViewport to maintain virtual aspect ratio despite screen size
+        gamePort = new FitViewport(ZickZackJump.V_WIDTH / ZickZackJump.PPM,
+                ZickZackJump.V_HEIGHT/ ZickZackJump.PPM,
+                gamecam);
+
+
+
+        //create our game HUD for scores/timers/level info
+        hud = new Hud(game.batch, Hud.getScore());
+
+
+        //Load our map and setup our map renderer
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load(level);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / ZickZackJump.PPM);
 //
 //        //initially set our gamecam to be centered correctly at the start of of map

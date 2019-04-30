@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="10" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="64">
+ <tileset firstgid="1" source="tileset_gutter.tsx"/>
+ <layer id="1" name="Background" width="10" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwzEJAAAMA7Ay/4bqrjL2JJBeUlVVVfX1ANT/2pc=
+  </data>
+ </layer>
+ <layer id="3" name="Graphics" width="10" height="100">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA+OEiEmrlMDAzzgHg+Ew0cgAb0GRkYDIDYkHFomT3U3DESwhkG6OGeUT8PHBgpfh0JbhgMfkQG9HLPYPH3SKgXBoM7RkI4I4PRfDQ0zB5q7hgJ4ayCZD8xblJhxM+n1B6QOlLMJKQW1K2cC6XR1VLDHb1ANX2MmOpNgWwzIDaHiq0D0usZMeVAQsRgAAlVGsE=
+  </data>
+ </layer>
+ <objectgroup id="4" name="Ground">
+  <object id="12" x="0" y="1584" width="160" height="16"/>
+  <object id="14" x="112" y="1520" width="48" height="16"/>
+  <object id="15" x="48" y="1472" width="48" height="16"/>
+  <object id="16" x="112" y="1424" width="48" height="16"/>
+  <object id="17" x="0" y="1376" width="48" height="16"/>
+  <object id="20" x="112" y="1328" width="48" height="16"/>
+  <object id="21" x="64" y="1280" width="48" height="16"/>
+  <object id="22" x="0" y="1232" width="48" height="16"/>
+  <object id="23" x="112" y="1184" width="48" height="16"/>
+  <object id="24" x="48" y="1136" width="48" height="16"/>
+  <object id="25" x="112" y="1088" width="48" height="16"/>
+  <object id="26" x="0" y="1040" width="48" height="16"/>
+  <object id="27" x="112" y="992" width="48" height="16"/>
+  <object id="28" x="64" y="944" width="48" height="16"/>
+  <object id="29" x="0" y="896" width="48" height="16"/>
+  <object id="30" x="112" y="848" width="48" height="16"/>
+  <object id="31" x="48" y="800" width="48" height="16"/>
+  <object id="33" x="112" y="752" width="48" height="16"/>
+  <object id="34" x="16" y="704" width="48" height="16"/>
+  <object id="36" x="112" y="656" width="48" height="16"/>
+  <object id="37" x="64" y="608" width="48" height="16"/>
+  <object id="38" x="13" y="558" width="48" height="16"/>
+  <object id="40" x="97" y="510" width="48" height="16"/>
+  <object id="41" x="32" y="464" width="48" height="16"/>
+  <object id="42" x="111" y="417" width="48" height="16"/>
+  <object id="43" x="16" y="368" width="48" height="16"/>
+  <object id="44" x="96" y="320" width="48" height="16"/>
+  <object id="45" x="0" y="272" width="48" height="16"/>
+  <object id="46" x="109" y="221" width="48" height="16"/>
+  <object id="47" x="64" y="176" width="48" height="16"/>
+  <object id="48" x="112" y="80" width="48" height="16"/>
+  <object id="49" x="0" y="128" width="48" height="16"/>
+  <object id="50" x="0" y="48" width="48" height="16">
+   <properties>
+    <property name="last_cloud" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="Pipes">
+  <object id="51" x="64" y="1552" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="6" name="Coins">
+  <object id="52" x="16" y="1520" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="7" name="Brick">
+  <object id="53" x="0" y="1520" width="16" height="16"/>
+  <object id="54" x="32" y="1520" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="8" name="Goombas">
+  <object id="56" x="128" y="1408" width="16" height="16"/>
+  <object id="57" x="128" y="1168" width="16" height="16"/>
+  <object id="58" x="80" y="928" width="16" height="16"/>
+  <object id="59" x="128" y="640" width="16" height="16"/>
+  <object id="61" x="48" y="448" width="16" height="16"/>
+  <object id="62" x="128" y="208" width="16" height="16"/>
+ </objectgroup>
+</map>

@@ -29,8 +29,10 @@ public class Ground extends InteractiveTileObject{
     public void onCloudGround(Jumper jumper){
         if (object.getProperties().containsKey("cloud")){
             System.out.println("finish level");
+            game.setScreen(new PlayScreen(game, "level2.tmx"));
+        }else if (object.getProperties().containsKey("last_cloud")){
             game.setScreen(new GameOverScreen(game));
         }else
-            System.out.println("not finish");
+            System.out.println("end game");
     }
 }
