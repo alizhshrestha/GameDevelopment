@@ -38,11 +38,13 @@ public abstract class InteractiveTileObject {
         PolygonShape shape = new PolygonShape();
 
         bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set((bounds.getX() + bounds.getWidth()/2)/ ZickZackJump.PPM, (bounds.getY() + bounds.getHeight()/2 ) / ZickZackJump.PPM);
+        bdef.position.set((bounds.getX() + bounds.getWidth()/2)/ ZickZackJump.PPM,
+                (bounds.getY() + bounds.getHeight()/2 ) / ZickZackJump.PPM);
 
         body = world.createBody(bdef);
 
-        shape.setAsBox(bounds.getWidth()/2/ZickZackJump.PPM, bounds.getHeight()/2/ZickZackJump.PPM);
+        shape.setAsBox(bounds.getWidth()/2/ZickZackJump.PPM,
+                bounds.getHeight()/2/ZickZackJump.PPM);
         fdef.shape = shape;
 
         fixture = body.createFixture(fdef);

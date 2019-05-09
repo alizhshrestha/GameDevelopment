@@ -1,5 +1,6 @@
 package com.mygdx.game.Sprites.TileObjects;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.mygdx.game.Scenes.Hud;
@@ -20,7 +21,12 @@ public class Coin extends InteractiveTileObject{
 
     @Override
     public void onHeadHit(Jumper jumper) {
-        getCell().setTile(tileSet.getTile(BLANK_COIN));
+        if (getCell().getTile().getId() == BLANK_COIN){
+            ZickZackJump.manager.get("audio/sounds/bump.wav", Sound.class).play();
+        }else{
+            ZickZackJump.manager.get("audio/sounds/coin.wav", Sound.class).play();
+            getCell().setTile(tileSet.getTile(BLANK_COIN));
+        }
         Hud.addScore(100);
     }
 

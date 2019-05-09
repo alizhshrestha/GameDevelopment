@@ -47,6 +47,8 @@ public class PlayScreen implements Screen {
     private Jumper player;
 
 
+    private Music music;
+
 
     private Hud hud;
 
@@ -96,6 +98,11 @@ public class PlayScreen implements Screen {
         player = new Jumper(this);
 
         world.setContactListener(new WorldContactListener());
+
+        music = ZickZackJump.manager.get("audio/music/mario_music.ogg", Music.class);
+        music.setLooping(true);
+        music.setVolume(0.03f);
+        music.play();
 
         Goomba goomba = new Goomba(this, 50, 32);
 

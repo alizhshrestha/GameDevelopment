@@ -1,5 +1,7 @@
 package com.mygdx.game.Sprites;
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -57,19 +59,23 @@ public class Jumper extends Sprite {
 
         //get run animation frames and add them to marioRun Animation
         for (int i = 1; i < 4; i++)
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("little_mario"), i*16, 0, 16, 16));
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("little_mario"),
+                    i*16, 0, 16, 16));
         marioRun = new Animation(0.1f, frames);
 
         frames.clear();
 
-        marioJump = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 80, 0, 16,16);
+        marioJump = new TextureRegion(screen.getAtlas().findRegion("little_mario"),
+                80, 0, 16,16);
 
         //create texture region for mario standing
-        marioStand = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 0,0,16,16);
+        marioStand = new TextureRegion(screen.getAtlas().findRegion("little_mario"),
+                0,0,16,16);
 
 
         //create dead mario texture region
-        marioDead = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 96, 0, 16, 16);
+        marioDead = new TextureRegion(screen.getAtlas().findRegion("little_mario"),
+                96, 0, 16, 16);
 
         //define mario in Box2d
         defineMario();
@@ -77,7 +83,8 @@ public class Jumper extends Sprite {
         //set initial values for marios location, width and height. And initial frame as marioStand
         setBounds(0,0, 16 / ZickZackJump.PPM, 16/ZickZackJump.PPM);
         setRegion(marioStand);
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
+        setPosition(b2body.getPosition().x - getWidth() / 2,
+                b2body.getPosition().y - getHeight() / 2);
     }
 
     public void update(float dt){
@@ -89,13 +96,16 @@ public class Jumper extends Sprite {
 
         }
 
-        setPosition(b2body.getPosition().x - getWidth()/2, b2body.getPosition().y - getHeight()/2);
+        setPosition(b2body.getPosition().x - getWidth()/2,
+                b2body.getPosition().y - getHeight()/2);
 
         setRegion(getFrame(dt));
     }
 
     public void die(){
         if (!isDead()){
+            ZickZackJump.manager.get("audio/music/mario_music.ogg", Music.class).stop();
+            ZickZackJump.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
             marioIsDead = true;
             Filter filter = new Filter();
             filter.maskBits = ZickZackJump.NOTHING_BIT;
@@ -104,7 +114,8 @@ public class Jumper extends Sprite {
                 fixture.setFilterData(filter);
             }
 
-            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+            b2body.applyLinearImpulse(new Vector2(0, 4f),
+                    b2body.getWorldCenter(), true);
         }
     }
 
@@ -155,10 +166,12 @@ public class Jumper extends Sprite {
 
     public State getState(){
         //Test to Box2D for velocity on the X and Y-Axis
-        //if mario is going positive in Y-Axis he is jumping... or if he just jumped and is falling remain in jump state
+        //if mario is going positive in Y-Axis he is jumping... or
+        // if he just jumped and is falling remain in jump state
         if (marioIsDead)
             return State.DEAD;
-        if ((b2body.getLinearVelocity().y > 0 && currentState == State.JUMPING) || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
+        if ((b2body.getLinearVelocity().y > 0 && currentState == State.JUMPING)
+                || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
             return State.JUMPING;
             //if negative in Y-Axis mario is falling
         else if(b2body.getLinearVelocity().y < 0)
@@ -211,7 +224,8 @@ public class Jumper extends Sprite {
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / ZickZackJump.PPM, 6 / ZickZackJump.PPM), new Vector2(2 / ZickZackJump.PPM, 6 / ZickZackJump.PPM));
+        head.set(new Vector2(-2 / ZickZackJump.PPM, 6 / ZickZackJump.PPM),
+                new Vector2(2 / ZickZackJump.PPM, 6 / ZickZackJump.PPM));
         fdef.filter.categoryBits = ZickZackJump.JUMPER_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;

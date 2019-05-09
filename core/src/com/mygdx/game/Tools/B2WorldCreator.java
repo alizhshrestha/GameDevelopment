@@ -32,18 +32,8 @@ public class B2WorldCreator {
         Body body;
 
         //create ground bodies/fixtures
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
-//            Rectangle rect = ((RectangleMapObject)object).getRectangle();
-//
-//            bdef.type = BodyDef.BodyType.StaticBody;
-//            bdef.position.set((rect.getX() + rect.getWidth()/2)/ ZickZackJump.PPM, (rect.getY() + rect.getHeight()/2)/ZickZackJump.PPM);
-//
-//            body = world.createBody(bdef);
-//
-//            shape.setAsBox(rect.getWidth() / 2 / ZickZackJump.PPM, rect.getHeight() / 2/ ZickZackJump.PPM);
-//            fdef.shape = shape;
-//            body.createFixture(fdef);
-
+        for (MapObject object : map.getLayers().get(2).getObjects()
+                .getByType(RectangleMapObject.class)){
             new Ground(screen, object);
 
         }
@@ -51,40 +41,35 @@ public class B2WorldCreator {
 
 
         //create pipe bodies/fixtures
-        for (MapObject object: map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
-//            Rectangle rect = ((RectangleMapObject)object).getRectangle();
-//
-//            bdef.type = BodyDef.BodyType.StaticBody;
-//            bdef.position.set((rect.getX() + rect.getWidth()/2) / ZickZackJump.PPM, (rect.getY() + rect.getHeight()/2)/ ZickZackJump.PPM);
-//
-//            body = world.createBody(bdef);
-//
-//            shape.setAsBox(rect.getWidth()/2/ZickZackJump.PPM, rect.getHeight()/2/ZickZackJump.PPM);
-//            fdef.shape = shape;
-//            body.createFixture(fdef);
+        for (MapObject object: map.getLayers().get(3).getObjects()
+                .getByType(RectangleMapObject.class)){
             new Pipe(screen, object);
         }
 
 
 
         //create brick bodies/fixtures
-        for (MapObject object: map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
+        for (MapObject object: map.getLayers().get(5).getObjects()
+                .getByType(RectangleMapObject.class)){
             new Brick(screen, object);
         }
 
 
 
         //create coin bodies/fixtures
-        for (MapObject object: map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
+        for (MapObject object: map.getLayers().get(4).getObjects()
+                .getByType(RectangleMapObject.class)){
             new Coin(screen, object);
         }
 
 
         //create all goombas
         goombas = new Array<Goomba>();
-        for (MapObject object: map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
+        for (MapObject object: map.getLayers().get(6).getObjects()
+                .getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject)object).getRectangle();
-            goombas.add(new Goomba(screen, rect.getX()/ ZickZackJump.PPM, rect.getY()/ ZickZackJump.PPM));
+            goombas.add(new Goomba(screen, rect.getX()/ ZickZackJump.PPM,
+                    rect.getY()/ ZickZackJump.PPM));
         }
     }
 

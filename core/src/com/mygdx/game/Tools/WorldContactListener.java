@@ -15,8 +15,6 @@ import com.mygdx.game.ZickZackJump;
 
 public class WorldContactListener implements ContactListener {
 
-
-
     @Override
     public void beginContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
@@ -28,9 +26,11 @@ public class WorldContactListener implements ContactListener {
             case ZickZackJump.JUMPER_HEAD_BIT | ZickZackJump.BRICK_BIT:
             case ZickZackJump.JUMPER_HEAD_BIT | ZickZackJump.COIN_BIT:
                 if (fixA.getFilterData().categoryBits == ZickZackJump.JUMPER_HEAD_BIT)
-                    ((InteractiveTileObject)fixB.getUserData()).onHeadHit((Jumper)fixA.getUserData());
+                    ((InteractiveTileObject)fixB.getUserData())
+                            .onHeadHit((Jumper)fixA.getUserData());
                 else
-                    ((InteractiveTileObject)fixA.getUserData()).onHeadHit((Jumper)fixB.getUserData());
+                    ((InteractiveTileObject)fixA.getUserData())
+                            .onHeadHit((Jumper)fixB.getUserData());
                 break;
             case ZickZackJump.ENEMY_HEAD_BIT | ZickZackJump.JUMPER_BIT:
                 if (fixA.getFilterData().categoryBits == ZickZackJump.ENEMY_HEAD_BIT)

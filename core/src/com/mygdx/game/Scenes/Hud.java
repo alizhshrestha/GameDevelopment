@@ -21,7 +21,7 @@ public class Hud implements Disposable{
 
     //Jumper score/time Tracking Variables
     private static Integer score, level, worldTimer, highScore;
-    private float timeCount;
+    private static float timeCount;
 
     private boolean timeUp; //true when the world timer reaches 0
 
@@ -44,12 +44,15 @@ public class Hud implements Disposable{
         table.setFillParent(true); //table is size of the stage
 
 
-        countdownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        countdownLabel = new Label(String.format("%03d", worldTimer),
+                new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreName = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         levelName = new Label("LEVEL", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label(String.format("%03d", level), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel = new Label(String.format("%06d", score),
+                new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        levelLabel = new Label(String.format("%03d", level),
+                new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 //        highScoreName = new Label("HIGH SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 //        highScoreLabel = new Label(String.format("%06d", highScore), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
@@ -110,6 +113,10 @@ public class Hud implements Disposable{
 
     public static Integer getScore(){
         return score;
+    }
+
+    public static Integer getTime(){
+        return worldTimer;
     }
 
 

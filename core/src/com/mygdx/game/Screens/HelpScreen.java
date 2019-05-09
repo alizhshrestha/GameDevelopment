@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ZickZackJump;
 
-public class HelpScreen implements Screen {
+public class  HelpScreen implements Screen {
 
     private ZickZackJump game;
     private Stage stage;

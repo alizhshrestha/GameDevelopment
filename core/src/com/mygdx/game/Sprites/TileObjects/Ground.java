@@ -1,6 +1,7 @@
 package com.mygdx.game.Sprites.TileObjects;
 
 import com.badlogic.gdx.maps.MapObject;
+import com.mygdx.game.Scenes.Hud;
 import com.mygdx.game.Screens.GameOverScreen;
 import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.Sprites.Jumper;
@@ -29,8 +30,18 @@ public class Ground extends InteractiveTileObject{
     public void onCloudGround(Jumper jumper){
         if (object.getProperties().containsKey("cloud")){
             System.out.println("finish level");
+            if (Hud.getTime()>50){
+                Hud.addScore(400);
+            }else if (Hud.getTime() > 20){
+                Hud.addScore(200);
+            }
             game.setScreen(new PlayScreen(game, "level2.tmx"));
         }else if (object.getProperties().containsKey("last_cloud")){
+            if (Hud.getTime()>50){
+                Hud.addScore(400);
+            }else if (Hud.getTime() > 20){
+                Hud.addScore(200);
+            }
             game.setScreen(new GameOverScreen(game));
         }else
             System.out.println("end game");
